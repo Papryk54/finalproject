@@ -32,7 +32,7 @@ import { join } from 'path';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(cors()).forRoutes({
-      path: '*',
+      path: '(.*)',
       method: RequestMethod.ALL,
     });
   }

@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix('api');
   app.useStaticAssets(join(__dirname, '..', '..', 'public'));
-
+  console.log('DATABASE_URL:', process.env.DATABASE_URL);
   await app.enableShutdownHooks();
   await app.listen(3000);
 }
