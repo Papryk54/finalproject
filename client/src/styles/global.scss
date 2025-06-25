@@ -1,0 +1,128 @@
+@import "./variables.scss";
+
+/* ====================
+   Reset & Base Styles
+==================== */
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	color: $primary-color;
+	background-color: $background-color;
+	font-size: $font-size-xxl;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+
+	@media (max-width: $breakpoint-xl) {
+		font-size: $font-size-xl;
+	}
+
+	@media (max-width: $breakpoint-lg) {
+		font-size: $font-size-lg;
+	}
+
+	@media (max-width: $breakpoint-md) {
+		font-size: $font-size-md;
+	}
+
+	@media (max-width: $breakpoint-sm) {
+		font-size: $font-size-sm;
+	}
+}
+/* ====================
+   Body
+==================== */
+
+body {
+	display: flex;
+	justify-content: center;
+	place-items: center;
+	min-width: 360px;
+	line-height: $line-height-base;
+	font-family: $font-family;
+}
+
+/* ====================
+   Headings
+==================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $font-family;
+	font-weight: $font-weight-bold;
+	line-height: $line-height-sm;
+}
+
+/* ====================
+   Links
+==================== */
+
+a {
+	font-weight: 400;
+	color: $link-color;
+	text-decoration: none;
+	transition: color $transition-duration $transition-ease; //
+}
+
+a:hover {
+	color: $link-color-hover;
+}
+
+/* ====================
+   Buttons
+==================== */
+
+button {
+	border-radius: $border-radius;
+	border: none;
+	cursor: pointer;
+}
+
+/* ====================
+   Images
+==================== */
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* ====================
+   Containers
+==================== */
+
+.container {
+	max-width: $breakpoint-xl;
+	min-width: 360px;
+	padding: 0 $spacing-md;
+}
+
+/* ====================
+   Utilities
+==================== */
+
+.shadow {
+	box-shadow: $box-shadow;
+}
+
+/* ====================
+   Texts
+==================== */
+
+p,
+span,
+strong,
+a,
+select,
+label {
+	font-family: $font-family;
+}

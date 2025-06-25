@@ -1,0 +1,37 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: $spacing-md;
+	color: $white;
+}
+
+.heading {
+	font-size: $font-size-xl;
+	color: $primary-color;
+	margin-bottom: $spacing-sm;
+}
+
+.subheading {
+	font-size: $font-size-lg;
+	color: $primary-dark-color;
+	margin-top: $spacing-md;
+	margin-bottom: $spacing-xs;
+}
+
+.text {
+	font-size: $font-size-md;
+	line-height: $line-height-base;
+	margin-bottom: $spacing-sm;
+}
+
+.list {
+	list-style: disc;
+	padding-left: $spacing-sm;
+
+	li {
+		font-size: $font-size-md;
+		margin-bottom: $spacing-xxs;
+	}
+}

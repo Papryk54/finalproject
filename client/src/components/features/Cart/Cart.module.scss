@@ -1,0 +1,149 @@
+@import "../../../styles/variables.scss";
+
+.cartWrapper {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 500px;
+	height: 100vh;
+	background-color: $gray-dark;
+	box-shadow: -4px 0 12px rgba($black, 0.3);
+	transition: right $transition-duration $transition-ease;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+
+	&.open {
+		right: 0;
+	}
+
+	@media (max-width: $breakpoint-md) {
+		width: 340px;
+	}
+}
+
+.cartContent {
+	display: flex;
+	flex-direction: column;
+	padding: $spacing-md;
+	height: 100%;
+	position: relative;
+}
+
+h3 {
+	color: $white;
+	font-size: $font-size-xl;
+	margin-bottom: $spacing-sm;
+	border-bottom: $border-width solid rgba($white, 0.1);
+	padding-bottom: $spacing-xs;
+}
+
+.items {
+	flex: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-sm;
+}
+
+.item {
+	display: flex;
+	flex-direction: column;
+	padding: $spacing-xs;
+	border-bottom: $border-width solid rgba($white, 0.1);
+	border-radius: $border-radius;
+	background-color: $gray-dark;
+	position: relative;
+
+	.quantityControls {
+		display: flex;
+		align-items: center;
+		gap: $spacing-xs;
+
+		.quantityButton {
+			background: none;
+			border: $border-width solid $white;
+			color: $white;
+			padding: 2px 8px;
+			border-radius: $border-radius;
+			cursor: pointer;
+
+			&:disabled {
+				opacity: 0.3;
+				cursor: default;
+			}
+		}
+		span:first-child {
+			font-size: $font-size-md;
+			color: $white;
+			flex-grow: 1;
+		}
+	}
+
+	.controls {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		align-items: center;
+		gap: $spacing-xs;
+	}
+}
+
+.cartFooter {
+	margin-top: $spacing-md;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xs;
+	border-top: $border-width solid rgba($white, 0.1);
+	padding-top: $spacing-sm;
+
+	p {
+		font-size: $font-size-md;
+		color: $white;
+		font-weight: $font-weight-bold;
+		text-align: right;
+	}
+
+	.checkoutBtn {
+		background-color: $alert-color;
+		color: $black;
+		padding: $spacing-xs;
+		border: none;
+		border-radius: $border-radius;
+		text-align: center;
+		cursor: pointer;
+		font-weight: bold;
+
+		&:hover {
+			background-color: lighten($alert-color, 10%);
+		}
+	}
+
+	.clearBtn {
+		background: none !important;
+		border: none;
+		color: rgba($white, 0.6);
+		text-align: center;
+		cursor: pointer;
+		font-size: $font-size-sm;
+
+		&:hover {
+			color: $white;
+		}
+	}
+}
+
+.closeBtn {
+	position: absolute;
+	top: $spacing-sm;
+	right: $spacing-sm;
+	background: none;
+	border: none;
+	color: $white;
+	font-size: $font-size-lg;
+	cursor: pointer;
+
+	&:hover {
+		color: $primary-color;
+	}
+}

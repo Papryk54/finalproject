@@ -1,0 +1,95 @@
+@import "../../../styles/variables.scss";
+
+.footer {
+	background-color: $gray-dark;
+	color: $white;
+	padding: $spacing-sm $spacing-xs;
+	font-size: $font-size-sm;
+	width: 100%;
+	min-width: 360px;
+	position: absolute;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+
+	.container {
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+		width: 100%;
+	}
+
+	.column {
+		flex: 1;
+		padding: 0 $spacing-sm;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+
+		&:not(:first-child) {
+			border-left: $border-width solid $primary-color;
+		}
+
+		h4 {
+			color: $primary-color;
+			font-size: $font-size-md;
+			margin-bottom: 6px;
+		}
+	}
+
+	.linkRow {
+		display: flex;
+		flex-wrap: wrap;
+		gap: $spacing-xs;
+
+		a {
+			color: $white;
+			text-decoration: none;
+			font-size: $font-size-sm;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.bottomBar {
+		width: 100%;
+		text-align: center;
+		font-size: $font-size-xs;
+		color: rgba($white, 0.6);
+		border-top: $border-width solid rgba($white, 0.1);
+		padding-top: $spacing-xxs;
+		margin-top: $spacing-xxs;
+	}
+}
+
+@media (max-width: $breakpoint-sm) {
+	.footer {
+		.container {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.column {
+			width: 100%;
+			border-left: none;
+			padding: $spacing-xs 0;
+			&:not(:first-child) {
+				border-left: none;
+				border-top: 1px solid $primary-color;
+			}
+		}
+
+		.linkRow {
+			flex-direction: column;
+			align-items: flex-start;
+			width: 100%;
+
+			a {
+				width: 100%;
+			}
+		}
+	}
+}

@@ -27,14 +27,15 @@ export class UsersController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
-    const user = await this.userService.findOne(id);
+  @Get('email/:email')
+  async findOneByEmail(@Param('email') email: string): Promise<User> {
+    const user = await this.userService.findOneByEmail(email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
     return user;
   }
+  
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);

@@ -1,0 +1,65 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+	max-width: 400px;
+	margin: 0 auto;
+	padding: $spacing-sm;
+	border-radius: $border-radius;
+	box-shadow: $box-shadow;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: $spacing-sm;
+}
+
+.title {
+	font-size: $font-size-xl;
+	font-weight: $font-weight-bold;
+	color: $primary-color;
+	text-align: center;
+}
+
+.form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-sm;
+}
+
+.inputGroup {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xs;
+}
+
+.label {
+	font-size: $font-size-sm;
+	color: $white;
+}
+
+.input {
+	padding: $spacing-xs;
+	border: $border-width solid $primary-color;
+	border-radius: $border-radius;
+	background-color: $black;
+	color: $white;
+	font-size: $font-size-md;
+	transition: border-color $transition-duration $transition-ease;
+
+	&:focus {
+		outline: none;
+		border-color: $link-color-hover;
+	}
+}
+
+.error {
+	color: $error-color;
+	font-size: $font-size-sm;
+	text-align: center;
+}
+
+.success {
+	color: $alert-color;
+	font-size: $font-size-sm;
+	text-align: center;
+}

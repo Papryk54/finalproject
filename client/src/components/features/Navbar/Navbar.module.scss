@@ -1,0 +1,140 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 150px;
+	width: 100%;
+	min-width: 360px;
+	position: relative;
+	padding: 0 $spacing-sm;
+}
+
+.logo {
+	width: 20%;
+	max-height: 150px;
+	aspect-ratio: 1 / 1;
+
+	img {
+		object-fit: cover;
+		max-width: 100%;
+	}
+}
+
+.hamburger {
+	display: none;
+	cursor: pointer;
+	color: $primary-color;
+	width: 60%;
+	text-align: end;
+
+	@media (max-width: $breakpoint-md) {
+		display: block;
+	}
+}
+
+.navigation {
+	display: flex;
+	gap: $spacing-sm;
+	width: 100%;
+
+	li {
+		list-style: none;
+	}
+
+	@media (max-width: $breakpoint-md) {
+		display: none;
+		flex-direction: column;
+		position: absolute;
+		top: 140px;
+		left: 0;
+		width: 100%;
+		background-color: $gray-dark;
+		padding: $spacing-md;
+		z-index: 2;
+		text-align: center;
+	}
+
+	&.open {
+		display: flex;
+	}
+}
+
+.navigation a {
+	font-weight: $font-weight-regular;
+	text-decoration: none;
+	color: $primary-color;
+	text-transform: uppercase;
+	transition: color 0.3s;
+	padding: 0 5px;
+	font-size: $font-size-sm;
+	background-color: transparent;
+
+	&:hover {
+		font-weight: 500;
+		background-color: transparent;
+	}
+}
+
+.cart {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	color: $primary-color;
+
+	.total {
+		color: $primary-color;
+	}
+}
+
+.cartDrawer {
+	position: fixed;
+	top: 0;
+	right: -350px;
+	width: 350px;
+	height: 100%;
+	background-color: $white;
+	box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.1);
+	padding: $spacing-lg;
+	z-index: 2;
+	transition: right $transition-duration $transition-ease;
+}
+
+.cartDrawer.open {
+	right: 0;
+}
+
+.cartContent {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.cartFooter {
+	margin-top: auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.checkoutBtn {
+	background-color: $primary-dark-color;
+	color: $white;
+	padding: $spacing-md;
+	border: none;
+	border-radius: $border-radius;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $link-color;
+	}
+}
+
+.adminButton {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	opacity: 0.5;
+	z-index: 3;
+}

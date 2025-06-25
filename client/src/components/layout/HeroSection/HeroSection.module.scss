@@ -1,0 +1,64 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: $font-size-sm;
+	gap: $spacing-md;
+	padding: $spacing-sm 0;
+	height: 800px;
+	@media (max-width: $breakpoint-md) {
+		height: 600px;
+	}
+	@media (max-width: $breakpoint-sm) {
+		height: 400px;
+	}
+}
+
+.text {
+	text-align: left;
+	width: 50%;
+	margin-top: calc(-1 * $spacing-sm);
+
+	h2 {
+		font-size: $font-size-xxl;
+		padding-bottom: $spacing-sm;
+		@media (max-width: $breakpoint-md) {
+			font-size: $font-size-lg;
+		}
+		@media (max-width: $breakpoint-sm) {
+			font-size: $font-size-md;
+		}
+	}
+
+	p {
+		font-size: $font-size-md;
+		padding-bottom: $spacing-md;
+		@media (max-width: $breakpoint-md) {
+			font-size: $font-size-sm;
+		}
+		@media (max-width: $breakpoint-sm) {
+			font-size: $font-size-xs;
+		}
+	}
+}
+
+.textWrapper {
+	height: 70%;
+}
+
+.image {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	width: 30%;
+	min-height: 100%;
+	align-items: center;
+
+	img {
+		object-position: top center;
+		object-fit: contain;
+		max-width: 100%;
+	}
+}

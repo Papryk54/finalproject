@@ -1,0 +1,136 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: $spacing-md;
+	gap: $spacing-sm;
+	width: 100%;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 600px;
+	gap: $spacing-sm;
+
+	input,
+	textarea {
+		width: 100%;
+		padding: $spacing-xs;
+		border: $border-width solid $gray-dark;
+		border-radius: $border-radius;
+		background-color: $white;
+		color: $black;
+		font-family: $font-family;
+		font-size: $font-size-md;
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 100px;
+	}
+}
+
+.variants {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xs;
+
+	input {
+		font-size: $font-size-md;
+	}
+
+	button {
+		align-self: flex-start;
+		padding: $spacing-xs $spacing-sm;
+		background-color: $primary-color;
+		color: $white;
+		border: none;
+		border-radius: $border-radius;
+		cursor: pointer;
+		transition: background-color $transition-duration $transition-ease;
+
+		&:hover {
+			background-color: $primary-dark-color;
+		}
+	}
+}
+
+.variantList {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xxs;
+}
+
+.variantItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: $gray-light;
+	padding: $spacing-xs;
+	border-radius: $border-radius;
+	font-size: $font-size-md;
+
+	button {
+		background: none;
+		border: none;
+		color: $primary-dark-color;
+		cursor: pointer;
+		font-weight: $font-weight-bold;
+		font-size: $font-size-md;
+	}
+}
+
+.imagePreview {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	gap: $spacing-xs;
+	margin-top: $spacing-sm;
+}
+
+.previewItem {
+	position: relative;
+
+	img {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		border-radius: $border-radius;
+		box-shadow: $box-shadow;
+	}
+
+	button {
+		position: absolute;
+		top: $spacing-xxs;
+		right: $spacing-xxs;
+		background: rgba(0, 0, 0, 0.5);
+		color: $white;
+		border: none;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: $font-weight-bold;
+	}
+}
+
+.deleteButton {
+	margin-top: $spacing-sm;
+	padding: $spacing-xs $spacing-sm;
+	background-color: $error-color;
+	color: $white;
+	border: none;
+	border-radius: $border-radius;
+	cursor: pointer;
+	transition: background-color $transition-duration $transition-ease;
+
+	&:hover {
+		background-color: darken($error-color, 10%);
+	}
+}

@@ -1,0 +1,57 @@
+@import "../../../styles/variables.scss";
+
+.wrapper {
+	padding: 40px 20px;
+	margin: 0 auto;
+}
+
+.topBar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+	flex-wrap: wrap;
+	gap: 10px;
+
+	.resultsInfo {
+		font-size: $font-size-sm;
+		font-weight: bold;
+	}
+
+	.sortSelect {
+		padding: 6px 12px;
+		border-radius: 4px;
+		border: 1px solid $primary-dark-color;
+		font-size: $font-size-sm;
+		background-color: transparent;
+		color: $gray-light;
+		option {
+			background-color: $gray-dark;
+		}
+	}
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+	gap: 20px;
+}
+
+.loadMore {
+	text-align: center;
+	margin-top: 30px;
+
+	button {
+		padding: 10px 20px;
+		border: none;
+		background-color: $primary-color;
+		color: $gray-light;
+		border-radius: 5px;
+		cursor: pointer;
+		font-weight: bold;
+
+		&:hover {
+			background-color: darken($primary-color, 10%);
+		}
+	}
+}

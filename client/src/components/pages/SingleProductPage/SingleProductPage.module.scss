@@ -1,0 +1,40 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	padding: $spacing-md;
+	max-width: 1000px;
+	margin: 0 auto;
+	color: $white;
+	background-color: $background-color;
+	border-radius: $border-radius;
+	box-shadow: $box-shadow;
+}
+
+.title {
+	font-size: $font-size-xl;
+	color: $primary-color;
+	margin-bottom: $spacing-xxs;
+}
+
+.description {
+	margin-bottom: $spacing-sm;
+	color: $gray-light;
+}
+
+.form {
+	padding: $spacing-sm;
+}
+
+.variantOption {
+	display: flex;
+	align-items: center;
+	gap: $spacing-xxs;
+	cursor: pointer;
+	font-size: $font-size-sm;
+	color: $white;
+
+	input {
+		accent-color: $primary-color;
+		transform: scale(1.2);
+	}
+}

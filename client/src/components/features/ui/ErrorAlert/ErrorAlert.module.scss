@@ -1,0 +1,17 @@
+@import "../../../../styles/variables.scss";
+
+.alert {
+	position: fixed;
+	top: $spacing-sm;
+	right: $spacing-sm;
+	background-color: $error-color;
+	color: $black;
+	padding: $spacing-sm $spacing-md;
+	border-radius: $border-radius;
+	box-shadow: $box-shadow;
+	font-size: $font-size-md;
+	z-index: 9999;
+	opacity: 1;
+	transition: opacity $transition-duration $transition-ease;
+	pointer-events: none;
+}

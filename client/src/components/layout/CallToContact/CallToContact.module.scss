@@ -1,0 +1,60 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	display: flex;
+	align-items: center;
+	gap: $spacing-sm;
+	padding: $spacing-md;
+
+	@media (max-width: $breakpoint-md) {
+		flex-direction: column;
+	}
+}
+
+.left {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xxs;
+
+	h3 {
+		font-size: $font-size-xl;
+		font-weight: $font-weight-bold;
+		font-family: $font-family;
+	}
+
+	p {
+		font-size: $font-size-sm;
+		color: $gray-light;
+		font-family: $font-family;
+	}
+
+	button {
+		background-color: $primary-color;
+		color: $white;
+		font-size: $font-size-md;
+		padding: $spacing-xs $spacing-sm;
+		border: none;
+		border-radius: $border-radius;
+		cursor: pointer;
+		transition: background-color $transition-duration $transition-ease;
+
+		&:hover {
+			background-color: $primary-dark-color;
+		}
+	}
+}
+
+.right {
+	flex: 1;
+	max-width: 400px;
+
+	img {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		display: block;
+		border-radius: $border-radius;
+		max-width: 100%;
+	}
+}

@@ -10,9 +10,22 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [UsersModule, ProductsModule, OrdersModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', '..', 'client', 'dist'),
+    }),
+    AuthModule,
+    UsersModule,
+    ProductsModule,
+    OrdersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

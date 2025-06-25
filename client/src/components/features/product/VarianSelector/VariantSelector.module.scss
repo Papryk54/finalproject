@@ -1,0 +1,67 @@
+@import "../../../../styles/variables.scss";
+
+.wrapper {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.heading {
+	font-size: $font-size-lg;
+	font-weight: $font-weight-bold;
+	margin-bottom: $spacing-xs;
+}
+
+.options {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: $spacing-sm;
+	justify-content: flex-start;
+}
+
+.optionWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: $spacing-xxs;
+}
+
+.option {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: $font-size-lg;
+	padding: $spacing-xs $spacing-sm;
+	border-radius: $border-radius;
+	background-color: $gray-dark;
+	cursor: pointer;
+	transition: background-color $transition-duration $transition-ease;
+	text-align: center;
+
+	input {
+		display: none;
+	}
+
+	&:hover {
+		background-color: $primary-dark-color;
+		color: $white;
+		box-shadow: 0 4px 12px rgba($primary-dark-color, 0.8);
+	}
+}
+
+.price {
+	font-size: $font-size-md;
+	color: $gray-light;
+	text-align: center;
+}
+
+.active {
+	border: 2px solid $primary-color;
+	box-shadow: 0 0 10px rgba($primary-color, 0.6);
+}
+
+@media (max-width: $breakpoint-sm) {
+	.options {
+		flex-direction: column;
+	}
+}

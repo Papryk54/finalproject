@@ -1,0 +1,41 @@
+@import "../../../styles/variables.scss";
+
+.buttonSecondary {
+	align-items: center;
+	text-align: center;
+	background-image: linear-gradient(
+		135deg,
+		$primary-color 40%,
+		$primary-dark-color
+	);
+	border-radius: $border-radius;
+	color: $gray-light;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	font-size: $font-size-sm;
+	font-weight: $font-weight-semi-bold;
+	letter-spacing: 0.4px;
+	max-width: 100px;
+	min-height: $spacing-md;
+	padding: 3px 20px;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: $transition-duration;
+}
+
+.buttonSecondary:hover {
+	outline: 0;
+	color: $button-link-color;
+	transform: scale(0.95);
+}
+
+.buttonSecondary span {
+	transition: 0.2s;
+}
+
+.buttonSecondary:hover span {
+	transform: scale(0.9);
+	opacity: 0.75;
+}

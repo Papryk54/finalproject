@@ -1,259 +1,158 @@
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
+import {
+	selectCartItems,
+	selectCartTotal,
+} from "../../../redux/cart/cart.selectors";
+import { clearCart } from "../../../redux/cart/cart.slice";
+import type { CartItem } from "../../../redux/cart/cart.types";
+import styles from "./OrderPage.module.scss";
+import ErrorAlert from "../../features/ui/ErrorAlert/ErrorAlert";
+import SuccessAlert from "../../features/ui/SuccessAlert/SuccessAlert";
+import ButtonSubmit from "../../utils/ButtonSubmit/ButtonSubmit";
 
-type Product = {
-	id: string;
-	title: string;
-	price: number;
-};
-
-type OrderProduct = {
-	productId: string;
-	quantity: number;
-	note?: string;
-};
-
-type Order = {
-	id: string;
+interface OrderPayload {
 	contactName: string;
 	contactEmail: string;
 	contactPhone?: string;
 	address?: string;
-	note?: string;
-	createdAt: string;
 	products: {
 		productId: string;
+		variantId: string;
 		quantity: number;
-		note?: string;
-		product: {
-			title: string;
-			price: number;
-		};
 	}[];
-};
+}
 
 const OrderPage = () => {
-	const [products, setProducts] = useState<Product[]>([]);
-	const [orderProducts, setOrderProducts] = useState<OrderProduct[]>([]);
+	const items: CartItem[] = useAppSelector(selectCartItems);
+	const total = useAppSelector(selectCartTotal);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
-	const [orders, setOrders] = useState<Order[]>([]);
-
-	const [contactName, setContactName] = useState("");
-	const [contactEmail, setContactEmail] = useState("");
-	const [contactPhone, setContactPhone] = useState("");
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [phone, setPhone] = useState("");
 	const [address, setAddress] = useState("");
-	const [note, setNote] = useState("");
 
-	const fetchProducts = async () => {
-		try {
-			const res = await fetch("http://localhost:3000/api/products");
-			const data = await res.json();
-			setProducts(data);
-		} catch (err) {
-			console.error("Błąd pobierania produktów:", err);
-		}
-	};
+	const [errorMessage, setErrorMessage] = useState<string | null>(null);
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-	const fetchOrders = async () => {
-		try {
-			const res = await fetch("http://localhost:3000/api/orders");
-			const data = await res.json();
-			setOrders(data);
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	const formattedTotal = useMemo(() => Number(total).toFixed(2), [total]);
 
-	useEffect(() => {
-		fetchOrders();
-		fetchProducts();
-	}, []);
-
-	const toggleProduct = (productId: string) => {
-		const exists = orderProducts.find((p) => p.productId === productId);
-		if (exists) {
-			setOrderProducts((prev) => prev.filter((p) => p.productId !== productId));
-		} else {
-			setOrderProducts((prev) => [...prev, { productId, quantity: 1 }]);
-		}
-	};
-
-	const updateQuantity = (productId: string, quantity: number) => {
-		setOrderProducts((prev) =>
-			prev.map((p) => (p.productId === productId ? { ...p, quantity } : p))
+	if (items.length === 0) {
+		return (
+			<p style={{ height: "50vh" }}>Your cart is empty. Add something first!</p>
 		);
-	};
+	}
 
-	const updateNote = (productId: string, note: string) => {
-		setOrderProducts((prev) =>
-			prev.map((p) => (p.productId === productId ? { ...p, note } : p))
-		);
-	};
-
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setErrorMessage(null);
+
+		const token = localStorage.getItem("token");
+
+		if (!token) {
+			setErrorMessage("You must be logged in to place an order.");
+			return;
+		}
+
+		const payload: OrderPayload = {
+			contactName: name,
+			contactEmail: email,
+			contactPhone: phone || undefined,
+			address: address || undefined,
+			products: items.map((item) => ({
+				productId: item.id,
+				variantId: item.variantId,
+				quantity: item.quantity,
+			})),
+		};
+
 		try {
-			await fetch("http://localhost:3000/api/orders", {
+			const res = await fetch("http://localhost:3000/api/orders", {
 				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					contactName,
-					contactEmail,
-					contactPhone,
-					address,
-					note,
-					products: orderProducts,
-				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(payload),
 			});
-			alert("Zamówienie wysłane!");
-			// Reset
-			setContactName("");
-			setContactEmail("");
-			setContactPhone("");
-			setAddress("");
-			setNote("");
-			setOrderProducts([]);
-		} catch (err) {
-			console.error("Błąd wysyłania zamówienia:", err);
+
+			if (!res.ok) {
+				throw new Error("Failed to create order");
+			}
+
+			dispatch(clearCart());
+			setSuccessMessage("Order placed successfully!");
+
+			setTimeout(() => navigate("/order-confirmation"), 1000);
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				setErrorMessage(err.message);
+			} else {
+				setErrorMessage("An unknown error occurred.");
+			}
 		}
 	};
 
 	return (
-		<div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-			<h2>📦 Formularz zamówienia</h2>
-			<form
-				onSubmit={handleSubmit}
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					gap: "1rem",
-					maxWidth: "600px",
-				}}
-			>
-				<input
-					type="text"
-					placeholder="Imię i nazwisko"
-					value={contactName}
-					onChange={(e) => setContactName(e.target.value)}
-					required
-				/>
-				<input
-					type="email"
-					placeholder="Email"
-					value={contactEmail}
-					onChange={(e) => setContactEmail(e.target.value)}
-					required
-				/>
-				<input
-					type="tel"
-					placeholder="Telefon"
-					value={contactPhone}
-					onChange={(e) => setContactPhone(e.target.value)}
-				/>
-				<input
-					type="text"
-					placeholder="Adres"
-					value={address}
-					onChange={(e) => setAddress(e.target.value)}
-				/>
-				<textarea
-					placeholder="Notatka do zamówienia"
-					value={note}
-					onChange={(e) => setNote(e.target.value)}
-				/>
+		<div className={styles.container}>
+			<div className={styles.wrapper}>
+				<h1>Order Summary</h1>
+				{errorMessage && <ErrorAlert message={errorMessage} />}
+				{successMessage && <SuccessAlert message={successMessage} />}
 
-				<h3>🛒 Produkty</h3>
-				{products.map((product) => {
-					const selected = orderProducts.find(
-						(p) => p.productId === product.id
-					);
-					return (
-						<div
-							key={product.id}
-							style={{
-								border: "1px solid #ccc",
-								padding: "1rem",
-								marginBottom: "0.5rem",
-							}}
-						>
-							<label>
-								<input
-									type="checkbox"
-									checked={!!selected}
-									onChange={() => toggleProduct(product.id)}
-								/>{" "}
-								{product.title} – {product.price} zł
-							</label>
-							{selected && (
-								<div style={{ marginTop: "0.5rem" }}>
-									<input
-										type="number"
-										min="1"
-										value={selected.quantity}
-										onChange={(e) =>
-											updateQuantity(product.id, parseInt(e.target.value))
-										}
-										placeholder="Ilość"
-									/>
-									<input
-										type="text"
-										placeholder="Notatka"
-										value={selected.note || ""}
-										onChange={(e) => updateNote(product.id, e.target.value)}
-									/>
-								</div>
-							)}
+				<div className={styles.items}>
+					{items.map((item) => (
+						<div key={item.id + item.variantLabel} className={styles.itemRow}>
+							<p>
+								<span>{item.title}</span> 
+								(<span>{item.variantLabel}</span>)
+							</p>
+							<span>
+								{item.quantity} × ${item.price.toFixed(2)}
+							</span>
+							<span>= ${(item.quantity * item.price).toFixed(2)}</span>
 						</div>
-					);
-				})}
+					))}
+				</div>
 
-				<button type="submit">Wyślij zamówienie</button>
-			</form>
-			<h4>📋 Aktualne zamówienia:</h4>
-			{orders.length === 0 ? (
-				<p>Brak zamówień.</p>
-			) : (
-				orders.map((order) => (
-					<div
-						key={order.id}
-						style={{
-							border: "1px solid #aaa",
-							padding: "1rem",
-							margin: "1rem 0",
-						}}
-					>
-						<p>
-							<strong>📇 Klient:</strong> {order.contactName} (
-							{order.contactEmail})
-						</p>
-						<p>
-							<strong>📞 Telefon:</strong> {order.contactPhone || "brak"}
-						</p>
-						<p>
-							<strong>🏠 Adres:</strong> {order.address || "brak"}
-						</p>
-						<p>
-							<strong>📝 Notatka:</strong> {order.note || "brak"}
-						</p>
-						<p>
-							<strong>🕒 Data:</strong>{" "}
-							{new Date(order.createdAt).toLocaleString()}
-						</p>
-						<h5>🛍️ Produkty:</h5>
-						<ul>
-							{order.products.map((item) => {
-								const product = products.find((p) => p.id === item.productId);
-								return (
-									<li key={item.productId}>
-										{product ? product.title : "Nieznany produkt"} x
-										{item.quantity} – {product ? product.price : "?"} zł
-										{item.note && <> (🗒️ {item.note})</>}
-									</li>
-								);
-							})}
-						</ul>
-					</div>
-				))
-			)}
+				<div className={styles.total}>
+					<strong>Total:</strong> ${formattedTotal}
+				</div>
+
+				<form onSubmit={handleSubmit} className={styles.form}>
+					<h2>Contact Info</h2>
+					<input
+						type="text"
+						placeholder="Full Name"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+						required
+					/>
+					<input
+						type="email"
+						placeholder="Email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
+					<input
+						type="tel"
+						placeholder="Phone (optional)"
+						value={phone}
+						onChange={(e) => setPhone(e.target.value)}
+					/>
+					<input
+						type="text"
+						placeholder="Address (optional)"
+						value={address}
+						onChange={(e) => setAddress(e.target.value)}
+					/>
+					<ButtonSubmit>Place Order</ButtonSubmit>
+				</form>
+			</div>
 		</div>
 	);
 };

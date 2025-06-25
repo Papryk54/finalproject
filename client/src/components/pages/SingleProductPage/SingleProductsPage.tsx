@@ -1,85 +1,105 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-
-type ProductImage = {
-	id: string;
-	url: string;
-};
-
-type Product = {
-	id: string;
-	title: string;
-	description?: string;
-	price: number;
-	createdAt: string;
-	updatedAt: string;
-	images: ProductImage[];
-};
+import ButtonSecondary from "../../utils/ButtonSecondary/ButtonSecondary";
+import { fetchProductById } from "../../../redux/products/products.thunks";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import styles from "./SingleProductPage.module.scss";
+import { addItemToCart } from "../../../redux/cart/cart.thunks";
+import { useIsAdmin } from "../../utils/hooks/useIsAdmin";
+import type { CartItem } from "../../../redux/cart/cart.types";
+import ProductGallery from "../../features/product/ProductGallery/ProductGallery";
+import ErrorAlert from "../../features/ui/ErrorAlert/ErrorAlert";
+import VariantSelector from "../../features/product/VarianSelector/VariantSelector";
+import { getImageUrl } from "../../utils/helpers/getImageUrl";
+import ButtonSubmit from "../../utils/ButtonSubmit/ButtonSubmit";
 
 const SingleProductPage = () => {
 	const { id } = useParams<{ id: string }>();
-	const [product, setProduct] = useState<Product | null>(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+	const dispatch = useAppDispatch();
+	const [chosenImage, setChosenImage] = useState(0);
+	const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+		null
+	);
+	const {
+		selectedProduct: product,
+		loading,
+		error,
+	} = useAppSelector((state) => state.products);
+	const isAdmin = useIsAdmin();
 
 	useEffect(() => {
-		if (!id) return;
+		if (id) dispatch(fetchProductById(id));
+	}, [id, dispatch]);
 
-		const fetchProduct = async () => {
-			try {
-				setLoading(true);
-				const res = await fetch(`http://localhost:3000/api/products/${id}`);
-				if (!res.ok) throw new Error("Produkt nie znaleziony");
-				const data = await res.json();
-				setProduct(data);
-			} catch (err) {
-				setError(err + "Coś poszło nie tak");
-			} finally {
-				setLoading(false);
-			}
-		};
+	useEffect(() => {
+		if (product && product.variants.length > 0) {
+			const sortedVariants = [...product.variants].sort(
+				(a, b) => a.price - b.price
+			);
+			setSelectedVariantId(sortedVariants[0].id);
+		}
+	}, [product]);
 
-		fetchProduct();
-	}, [id]);
+	const sortedVariants = useMemo(() => {
+		if (!product) return [];
+		return [...product.variants].sort((a, b) => a.price - b.price);
+	}, [product]);
 
-	if (loading) return <p>Ładuję produkt...</p>;
-	if (error) return <p style={{ color: "red" }}>{error}</p>;
-	if (!product) return <p>Brak danych produktu.</p>;
+	if (loading) return <p>Loading...</p>;
+	if (error) return <ErrorAlert message={error} />;
+	if (!product) return <ErrorAlert message={"Product not Found"} />;
 
 	return (
-		<div
-			style={{ padding: "2rem", fontFamily: "sans-serif", maxWidth: "600px" }}
-		>
-			<h2>{product.title}</h2>
-			<p>
-				<strong>Opis:</strong> {product.description || "Brak opisu"}
-			</p>
-			<p>
-				<strong>Cena:</strong> {product.price} zł
-			</p>
-			<p>
-				<strong>Utworzono:</strong>{" "}
-				{new Date(product.createdAt).toLocaleString()}
-			</p>
-			<p>
-				<strong>Ostatnia aktualizacja:</strong>{" "}
-				{new Date(product.updatedAt).toLocaleString()}
-			</p>
-			<h3>Zdjęcia:</h3>
-			{product.images.length === 0 ? (
-				<p>Brak zdjęć.</p>
-			) : (
-				<div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-					{product.images.map((img) => (
-						<img
-							key={img.id}
-							src={img.url}
-							alt={`Zdjęcie produktu ${product.title}`}
-							style={{ width: "150px", height: "150px", objectFit: "cover" }}
-						/>
-					))}
-				</div>
+		<div className={styles.container}>
+			<h2 className={styles.title}>{product.title}</h2>
+			<p className={styles.description}>{product.description}</p>
+
+			{product.images.length > 0 && (
+				<ProductGallery
+					images={product.images.map((img) => ({
+						...img,
+						url: getImageUrl(img.url),
+					}))}
+					selectedIndex={chosenImage}
+					onSelect={setChosenImage}
+				/>
 			)}
+
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					if (!selectedVariantId || !product) return;
+
+					const variant = product.variants.find(
+						(v) => v.id === selectedVariantId
+					);
+					if (!variant) return;
+
+					const item: CartItem = {
+						id: product.id,
+						title: product.title,
+						price: variant.price,
+						quantity: 1,
+						variantLabel: variant.label,
+						variantId: variant.id,
+						imageUrl: product.images?.[0]?.url || "",
+					};
+
+					dispatch(addItemToCart(item));
+				}}
+				className={styles.form}
+			>
+				<VariantSelector
+					variants={sortedVariants}
+					selectedId={selectedVariantId}
+					onChange={(id) => {
+						setSelectedVariantId(id);
+					}}
+				/>
+				<ButtonSubmit>Add to cart</ButtonSubmit>
+			</form>
+
+			{isAdmin && <ButtonSecondary label="Edit" to={`/admin/${product.id}`} />}
 		</div>
 	);
 };

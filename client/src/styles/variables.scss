@@ -1,5 +1,82 @@
-$primary-color: #eaeaea;
-$background-color: #1c1c1c;
-$link-color: #4da6ff;
-$link-color-hover: #5ac8b5;
-$alert-color: #e06666;
+// ====================
+// Main Colors
+// ====================
+
+$primary-color: #cc66ff;
+$primary-dark-color: #4b0082;
+$background-color: #121212;
+$button-link-color: #66ffff;
+$link-color-hover: #cc66ff;
+$error-color: #e74c3c;  
+$link-color: #3498db;   
+$alert-color: #2ecc71;  
+
+// ====================
+// Neutral Colors
+// ====================
+
+$white: #ffffff;
+$black: #000000;
+$gray-light: #f5f5f5;
+$gray-dark: #333333;
+
+// ====================
+// Font Settings
+// ====================
+
+$font-family: "Tektur", sans-serif;
+$font-weight-regular: 400;
+$font-weight-semi-bold: 700;
+$font-weight-bold: 900;
+
+$font-size-xs: 10px;
+$font-size-sm: 15px;
+$font-size-md: 20px;
+$font-size-lg: 25px;
+$font-size-xl: 30px;
+$font-size-xxl: 35px;
+
+$line-height-base: 1.5;
+$line-height-sm: 1.2;
+
+// ====================
+// Spacing
+// ====================
+
+$spacing-xxs: 5px;
+$spacing-xs: 10px;
+$spacing-sm: 20px;
+$spacing-md: 40px;
+$spacing-lg: 80px;
+$spacing-xl: 160px;
+
+// ====================
+// Breakpoints
+// ====================
+
+$breakpoint-xs: 360px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+// ====================
+// Borders
+// ====================
+
+$border-radius: 8px;
+$border-width: 1px;
+
+// ====================
+// Shadows
+// ====================
+
+$box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+// ====================
+// Transitions
+// ====================
+
+$transition-duration: 0.3s;
+$transition-ease: ease-in-out;

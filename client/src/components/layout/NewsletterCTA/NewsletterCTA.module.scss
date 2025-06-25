@@ -1,0 +1,128 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	height: 500px;
+	margin: $spacing-sm 0;
+	@media (max-width: $breakpoint-md) {
+		height: 350px;
+	}
+}
+
+.wrapper {
+	position: absolute;
+	background-color: $gray-dark;
+	left: 0;
+	width: 100%;
+	min-width: 360px;
+}
+
+.topSection {
+	display: flex;
+	padding: $spacing-md;
+	height: 350px;
+	gap: 20px;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 auto;
+	width: 100%;
+	max-width: 1200px;
+	@media (max-width: $breakpoint-md) {
+		height: 250px;
+	}
+	@media (max-width: $breakpoint-sm) {
+		height: 200px;
+		padding: $spacing-md $spacing-xs;
+	}
+}
+
+.image {
+	display: flex;
+	width: 50%;
+	min-width: 200px;
+
+	flex: 1;
+	justify-content: center;
+	align-items: flex-end;
+	height: calc(100% + $spacing-md * 2);
+
+	img {
+		object-fit: contain;
+		object-position: bottom center;
+		transform: rotateY(180deg);
+		max-width: 100%;
+	}
+}
+
+.text {
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	max-width: 50%;
+	max-height: 200px;
+
+	@media (max-width: $breakpoint-md) {
+		gap: 5px;
+	}
+
+	h3 {
+		@media (max-width: $breakpoint-md) {
+			font-size: $font-size-md;
+			gap: 5px;
+		}
+	}
+
+	h3:nth-of-type(2) {
+		@media (max-width: $breakpoint-sm) {
+			display: none;
+		}
+	}
+
+	p {
+		font-size: $font-size-sm;
+		color: $primary-color;
+		@media (max-width: $breakpoint-sm) {
+			font-size: $font-size-xs;
+		}
+	}
+}
+
+.bottomBar {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	height: 150px;
+	background-color: $primary-dark-color;
+	@media (max-width: $breakpoint-md) {
+		height: 100px;
+	}
+	@media (max-width: $breakpoint-sm) {
+		height: 75px;
+	}
+	.text {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: $spacing-md;
+		max-width: $breakpoint-xl;
+		margin: 0 auto;
+	}
+
+	h3 {
+		text-align: left;
+		font-size: $font-size-xl;
+		font-weight: bold;
+		@media (max-width: $breakpoint-sm) {
+			font-size: $font-size-md;
+		}
+	}
+}
+
+.sendBtn {
+	background-color: transparent;
+
+	&:hover {
+		background-color: transparent;
+	}
+}

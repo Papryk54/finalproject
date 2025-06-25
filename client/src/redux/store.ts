@@ -1,21 +1,28 @@
-import { createStore, combineReducers, compose, applyMiddleware } from "redux";
-import thunk, { ThunkMiddleware } from "redux-thunk";
-import initialState from "./InitialState";
-import usersReducer from "./usersRedux";
+import { configureStore } from "@reduxjs/toolkit";
+import usersReducer from "./users/users.slice";
+import productsReducer from "./products/products.slice";
+import authReducer from "./auth/auth.slice";
+import cartReducer from "./cart/cart.slice";
 
-const subreducers = {
-	user: usersReducer,
-};
+const store = configureStore({
+	reducer: {
+		user: usersReducer,
+		products: productsReducer,
+		auth: authReducer,
+		cart: cartReducer,
+	},
+});
 
-const reducer = combineReducers<typeof subreducers>(subreducers);
+store.subscribe(() => {
+	const { cart } = store.getState();
+	localStorage.setItem("cart", JSON.stringify(cart.items));
+});
 
-const composeEnhancers =
-	(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-	reducer,
-	initialState,
-	composeEnhancers(applyMiddleware(thunk as ThunkMiddleware))
-);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = (
+	dispatch: AppDispatch,
+	getState: () => RootState
+) => ReturnType;
 
 export default store;

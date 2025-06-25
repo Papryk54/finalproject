@@ -1,0 +1,64 @@
+@import "../../../styles/variables.scss";
+
+.container {
+	max-width: 600px;
+	margin: $spacing-lg auto;
+	padding: $spacing-lg;
+	background-color: $gray-dark;
+	border-radius: $border-radius;
+	box-shadow: $box-shadow;
+	text-align: center;
+	color: $white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: $spacing-sm;
+}
+
+h2 {
+	color: $primary-color;
+	font-size: $font-size-xxl;
+	margin-bottom: $spacing-xs;
+}
+
+p {
+	font-size: $font-size-md;
+	color: $gray-light;
+}
+
+.actions {
+	margin-top: $spacing-md;
+	display: flex;
+	flex-wrap: wrap;
+	gap: $spacing-sm;
+	justify-content: center;
+}
+
+.primaryBtn {
+	background-color: $primary-color;
+	color: $white;
+	padding: $spacing-xs $spacing-sm;
+	border-radius: $border-radius;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background-color $transition-duration $transition-ease;
+
+	&:hover {
+		background-color: $primary-dark-color;
+	}
+}
+
+.secondaryBtn {
+	background-color: transparent;
+	border: $border-width solid $white;
+	color: $white;
+	padding: $spacing-xs $spacing-sm;
+	border-radius: $border-radius;
+	text-decoration: none;
+	font-weight: bold;
+	transition: all $transition-duration $transition-ease;
+
+	&:hover {
+		background-color: rgba($white, 0.1);
+	}
+}

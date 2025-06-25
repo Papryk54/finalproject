@@ -7,18 +7,26 @@ import {
   Body,
   Param,
   NotFoundException,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersService } from './orders.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { User } from 'src/auth/user.decorator';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly orderService: OrdersService) {}
 
   @Post()
-  async create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  @UseGuards(JwtAuthGuard)
+  async create(
+    @Body() createOrderDto: CreateOrderDto,
+    @User() user: { userId: string },
+  ) {
+    return this.orderService.create(user.userId, createOrderDto);
   }
 
   @Get()
@@ -28,11 +36,7 @@ export class OrdersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const order = await this.orderService.findOne(id);
-    if (!order) {
-      throw new NotFoundException('Order not found');
-    }
-    return order;
+    return this.orderService.findOne(id);
   }
 
   @Put(':id')
